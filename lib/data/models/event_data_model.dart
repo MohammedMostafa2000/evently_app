@@ -10,15 +10,18 @@ class EventDataModel {
   final double? lat;
   final double? lng;
 
+  final String userID;
+
   EventDataModel({
+    required this.userID,
     required this.eventID,
     required this.title,
     required this.description,
     required this.categoryID,
     required this.dateTime,
     required this.time,
-    this.lat=0,
-    this.lng=0,
+    this.lat = 0,
+    this.lng = 0,
   });
 
   Map<String, dynamic> toJson(String eventID) => {
@@ -30,6 +33,7 @@ class EventDataModel {
         'time': time,
         'lat': lat,
         'lng': lng,
+        'userID': userID,
       };
 
   factory EventDataModel.fromJson(Map<String, dynamic> json) => EventDataModel(
@@ -41,5 +45,6 @@ class EventDataModel {
         time: Map<String, int>.from(json['time'] ?? {'hour': 0, 'minute': 0}),
         lat: json['lat'],
         lng: json['lng'],
+        userID: json['userID'],
       );
 }

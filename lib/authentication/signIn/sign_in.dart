@@ -75,7 +75,9 @@ class _SignInState extends State<SignIn> {
                   children: [
                     CustomTextButton(
                       title: AppLocalizations.of(context)!.forget_password,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, RoutesManager.resetPassword);
+                      },
                     ),
                   ],
                 ),
@@ -110,7 +112,7 @@ class _SignInState extends State<SignIn> {
                         color: ColorsManager.blue,
                       ),
                     ),
-                    Text('Or'),
+                    const Text('Or'),
                     Expanded(
                       child: Container(
                         margin: REdgeInsets.symmetric(horizontal: 16),
@@ -121,7 +123,9 @@ class _SignInState extends State<SignIn> {
                   ],
                 ),
                 SizedBox(height: 24.h),
-                CustomButton()
+                 CustomButton(
+                  onTap: () => _loginWithGoogle() ,
+                )
               ],
             ),
           ),
@@ -147,18 +151,35 @@ class _SignInState extends State<SignIn> {
       }
     }
   }
+
+  void _loginWithGoogle() async {
+    try {
+      DialogUtils.showLoadingDialog('Loading...', context);
+      await FirebaseSevices.signInWithGoogle(context);
+      if (!mounted) return;
+      DialogUtils.hideDialog(context);
+
+      Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+    } catch (e) {
+      DialogUtils.showMessageDialog(
+        e.toString(),
+        context,
+      );
+    }
+  }
 }
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
+    this.onTap,
   });
-
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(16.r),
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         alignment: Alignment.center,
         width: double.infinity,

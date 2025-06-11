@@ -19,4 +19,22 @@ class AssetsManager {
   static const String meetingCard = 'assets/images/meeting_card.png';
   static const String sportsCard = 'assets/images/sports_card.png';
   static const String workshopCard = 'assets/images/workshop_card.png';
+  static const String resetPassword = 'assets/images/reset_password.png';
+  static const String onboarding1 = 'assets/images/onboarding1.png';
+  static const String onboarding2 = 'assets/images/onboarding2.png';
+  static const String onboarding3 = 'assets/images/onboarding3.png';
+  static const String onboardingHeader = 'assets/images/onboarding_header_image.png';
+
+
+  static Map<String, String> imagesCategory = {
+    '2': sportsCard,
+    '3': birthdayCard,
+    '4': meetingCard,
+    '5': gamingCard,
+    '6': eatingCard,
+    '7': holidayCard,
+    '8': exhibitionCard,
+    '9': workshopCard,
+    '10': bookclubCard,
+  };
 }

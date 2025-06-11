@@ -12,18 +12,20 @@ class CustomTabBarWidget extends StatelessWidget {
     required this.borderColor,
     required this.indicatorBackgroundColor,
     this.onTabSelected,
+    this.initialIndex,
   });
-
   final List<TabBarDataModel> tabsList;
   final Color indicatorBackgroundColor;
   final Color labelColor;
   final Color unselectedLabelColor;
   final Color borderColor;
   final void Function(String)? onTabSelected;
+  final int? initialIndex;
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: initialIndex??0,
       length: tabsList.length,
       child: TabBar(
         splashFactory: NoSplash.splashFactory,
@@ -32,7 +34,7 @@ class CustomTabBarWidget extends StatelessWidget {
         labelColor: labelColor,
         unselectedLabelColor: unselectedLabelColor,
         isScrollable: true,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         onTap: (index) {
           onTabSelected?.call(tabsList[index].id);
         },

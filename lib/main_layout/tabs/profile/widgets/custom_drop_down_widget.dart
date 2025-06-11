@@ -52,7 +52,7 @@ class CustomDropDownWidget extends StatelessWidget {
                   ),
                 ),
                 DropdownButton<String>(
-                    underline: SizedBox(),
+                    underline: const SizedBox(),
                     iconSize: 35.sp,
                     iconEnabledColor: ColorsManager.blue,
                     iconDisabledColor: ColorsManager.blue,
@@ -61,7 +61,7 @@ class CustomDropDownWidget extends StatelessWidget {
                         value: value,
                         child: Text(
                           value,
-                          style: TextStyle(color: ColorsManager.balck),
+                          style: const TextStyle(color: ColorsManager.balck),
                         ),
                       );
                     }).toList(),

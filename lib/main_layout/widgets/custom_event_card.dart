@@ -116,8 +116,8 @@ class _CustomEventCardState extends State<CustomEventCard> {
                           : FirebaseSevices.removeFavoriteEventToFirestore(widget.event.eventID);
                     },
                     icon: isFavorite
-                        ? Icon(Icons.favorite, color: ColorsManager.blue)
-                        : Icon(Icons.favorite_border),
+                        ? const Icon(Icons.favorite, color: ColorsManager.blue)
+                        : const Icon(Icons.favorite_border),
                     iconSize: 24.sp,
                     color: ColorsManager.blue,
                   )

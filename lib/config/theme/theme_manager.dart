@@ -12,7 +12,7 @@ class ThemeManager {
       padding: REdgeInsets.all(0),
       elevation: 0,
       color: ColorsManager.blue,
-      shape: CircularNotchedRectangle(),
+      shape: const CircularNotchedRectangle(),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       foregroundColor: ColorsManager.white,
@@ -36,7 +36,7 @@ class ThemeManager {
       ),
     ),
     appBarTheme: AppBarTheme(
-      iconTheme: IconThemeData(color: ColorsManager.blue),
+      iconTheme: const IconThemeData(color: ColorsManager.blue),
       backgroundColor: ColorsManager.light,
       centerTitle: true,
       titleTextStyle: GoogleFonts.roboto(
@@ -113,7 +113,7 @@ class ThemeManager {
           backgroundColor: ColorsManager.blue,
           padding: REdgeInsets.symmetric(vertical: 16)),
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: ColorsManager.grey,
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -121,19 +121,19 @@ class ThemeManager {
         suffixIconColor: ColorsManager.grey,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.grey)),
+            borderSide: const BorderSide(color: ColorsManager.grey)),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.grey)),
+            borderSide: const BorderSide(color: ColorsManager.grey)),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.grey)),
+            borderSide: const BorderSide(color: ColorsManager.grey)),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.red)),
+            borderSide: const BorderSide(color: ColorsManager.red)),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.red)),
+            borderSide: const BorderSide(color: ColorsManager.red)),
         labelStyle: GoogleFonts.inter(
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
@@ -141,7 +141,7 @@ class ThemeManager {
         ),
         iconColor: ColorsManager.grey),
     tabBarTheme: TabBarTheme(
-      indicator: BoxDecoration(
+      indicator: const BoxDecoration(
           // color: ColorsManager.light,
           // borderRadius: BorderRadius.circular(46.r),
           ),
@@ -171,7 +171,7 @@ class ThemeManager {
       padding: REdgeInsets.all(0),
       elevation: 0,
       color: ColorsManager.darkBlue,
-      shape: CircularNotchedRectangle(),
+      shape: const CircularNotchedRectangle(),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       foregroundColor: ColorsManager.white,
@@ -195,7 +195,7 @@ class ThemeManager {
       ),
     ),
     appBarTheme: AppBarTheme(
-      iconTheme: IconThemeData(color: ColorsManager.blue),
+      iconTheme: const IconThemeData(color: ColorsManager.blue),
       backgroundColor: ColorsManager.darkBlue,
       centerTitle: true,
       titleTextStyle: GoogleFonts.roboto(
@@ -272,42 +272,40 @@ class ThemeManager {
           backgroundColor: ColorsManager.blue,
           padding: REdgeInsets.symmetric(vertical: 16)),
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: ColorsManager.light,
     ),
     inputDecorationTheme: InputDecorationTheme(
-
-      
         prefixIconColor: ColorsManager.light,
         suffixIconColor: ColorsManager.light,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.blue)),
+            borderSide: const BorderSide(color: ColorsManager.blue)),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.blue)),
+            borderSide: const BorderSide(color: ColorsManager.blue)),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.blue)),
+            borderSide: const BorderSide(color: ColorsManager.blue)),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.red)),
+            borderSide: const BorderSide(color: ColorsManager.red)),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
-            borderSide: BorderSide(color: ColorsManager.red)),
+            borderSide: const BorderSide(color: ColorsManager.red)),
         labelStyle: GoogleFonts.inter(
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
           color: ColorsManager.light,
         ),
-        hintStyle:  GoogleFonts.inter(
+        hintStyle: GoogleFonts.inter(
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
           color: ColorsManager.light,
-        ),  
+        ),
         iconColor: ColorsManager.light),
     tabBarTheme: TabBarTheme(
-      indicator: BoxDecoration(),
+      indicator: const BoxDecoration(),
       labelStyle: GoogleFonts.inter(
         decoration: TextDecoration.none,
         fontSize: 16,

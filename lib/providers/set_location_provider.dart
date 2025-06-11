@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SetLocationProvider extends ChangeNotifier {
-  CameraPosition initialCameraPosition = CameraPosition(
-    target: LatLng(30.008032773367237, 32.521857087633094),
+  CameraPosition initialCameraPosition = const CameraPosition(
+    target: LatLng(30.098016390490695, 31.2454222407975),
     zoom: 13,
   );
 
   Set<Marker> markers = {
-    Marker(
+    const Marker(
       markerId: MarkerId('1'),
-      position: LatLng(30.008032773367237, 32.521857087633094),
+      position: LatLng(30.098016390490695, 31.2454222407975),
     ),
   };
 
@@ -27,7 +27,7 @@ class SetLocationProvider extends ChangeNotifier {
     );
     markers = {
       Marker(
-        markerId: MarkerId('1'),
+        markerId: const MarkerId('1'),
         position: LatLng(location.latitude, location.longitude),
       ),
     };

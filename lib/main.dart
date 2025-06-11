@@ -16,7 +16,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ConfigProvider()),
         // ChangeNotifierProvider(create: (context) => FavoriteEventsProvider()),
       ],
-      child: EventlyApp(),
+      child: const EventlyApp(),
     ),
   );
 }

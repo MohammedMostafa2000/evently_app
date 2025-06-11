@@ -1,3 +1,4 @@
+import 'package:evently_app/core/routes/routes_manager.dart';
 import 'package:evently_app/data/firebase_services/firebase_sevices.dart';
 import 'package:evently_app/data/models/event_data_model.dart';
 import 'package:evently_app/data/models/tab_bar_data_model.dart';
@@ -22,52 +23,52 @@ class _HomeState extends State<Home> {
       TabBarDataModel(
         id: '1',
         title: AppLocalizations.of(context)!.all,
-        icon: Icon(Icons.explore_outlined),
+        icon: const Icon(Icons.explore_outlined),
       ),
       TabBarDataModel(
         id: '2',
         title: AppLocalizations.of(context)!.sports,
-        icon: Icon(Icons.sports_soccer),
+        icon: const Icon(Icons.sports_soccer),
       ),
       TabBarDataModel(
         id: '3',
         title: AppLocalizations.of(context)!.birthday,
-        icon: Icon(Icons.cake),
+        icon: const Icon(Icons.cake),
       ),
       TabBarDataModel(
         id: '4',
         title: AppLocalizations.of(context)!.meeting,
-        icon: Icon(Icons.meeting_room_outlined),
+        icon: const Icon(Icons.meeting_room_outlined),
       ),
       TabBarDataModel(
         id: '5',
         title: AppLocalizations.of(context)!.gaming,
-        icon: Icon(Icons.videogame_asset),
+        icon: const Icon(Icons.videogame_asset),
       ),
       TabBarDataModel(
         id: '6',
         title: AppLocalizations.of(context)!.eating,
-        icon: Icon(Icons.restaurant),
+        icon: const Icon(Icons.restaurant),
       ),
       TabBarDataModel(
         id: '7',
         title: AppLocalizations.of(context)!.holiday,
-        icon: Icon(Icons.beach_access),
+        icon: const Icon(Icons.beach_access),
       ),
       TabBarDataModel(
         id: '8',
         title: AppLocalizations.of(context)!.exhibition,
-        icon: Icon(Icons.museum),
+        icon: const Icon(Icons.museum),
       ),
       TabBarDataModel(
         id: '9',
         title: AppLocalizations.of(context)!.work_shop,
-        icon: Icon(Icons.handyman),
+        icon: const Icon(Icons.handyman),
       ),
       TabBarDataModel(
         id: '10',
         title: AppLocalizations.of(context)!.book_club,
-        icon: Icon(Icons.menu_book),
+        icon: const Icon(Icons.menu_book),
       ),
     ];
   }
@@ -103,7 +104,7 @@ class _HomeState extends State<Home> {
               SizedBox(height: 8.h),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.place_outlined,
                     color: ColorsManager.light,
                   ),
@@ -134,19 +135,24 @@ class _HomeState extends State<Home> {
             stream: FirebaseSevices.getEventsStreamFromFirestore(selectedCategoryId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text("حصل خطأ: ${snapshot.error}"));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text("لا يوجد بيانات"));
+                return const Center(child: Text("لا يوجد بيانات"));
               }
 
               final events = snapshot.data!;
               return ListView.builder(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemCount: events.length,
                 itemBuilder: (context, index) {
-                  return CustomEventCard(event: events[index]);
+                  return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesManager.eventDetails,
+                            arguments: events[index]);
+                      },
+                      child: CustomEventCard(event: events[index]));
                 },
               );
             },

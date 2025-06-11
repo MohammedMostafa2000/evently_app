@@ -29,7 +29,7 @@ class _FavoriteState extends State<Favorite> {
           return const Center(child: Text('لا توجد فعاليات مفضلة'));
         }
         return ListView.builder(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           itemCount: events.length,
           itemBuilder: (context, index) {
             final event = events[index];

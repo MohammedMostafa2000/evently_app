@@ -19,7 +19,7 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int selectedIndex = 0;
-  List<Widget> tabs = [
+  List<Widget> tabs =const [
     Home(),
     Maptab(),
     Favorite(),
@@ -32,13 +32,13 @@ class _MainLayoutState extends State<MainLayout> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 2, color: ColorsManager.light),
+          side: const BorderSide(width: 2, color: ColorsManager.light),
           borderRadius: BorderRadius.circular(100),
         ),
         onPressed: () {
           Navigator.pushNamed(context, RoutesManager.createEvent);
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           size: 32,
         ),
@@ -50,6 +50,7 @@ class _MainLayoutState extends State<MainLayout> {
 
   Widget buildBottomNavigationBar() {
     return BottomAppBar(
+      height: 60.h,
       notchMargin: 5.r,
       child: BottomNavigationBar(
         currentIndex: selectedIndex,

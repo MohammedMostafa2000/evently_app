@@ -1,4 +1,6 @@
 import 'package:evently_app/core/resources/colors_manager.dart';
+import 'package:evently_app/core/routes/routes_manager.dart';
+import 'package:evently_app/data/firebase_services/firebase_sevices.dart';
 import 'package:evently_app/data/models/user_data_model.dart';
 import 'package:evently_app/main_layout/tabs/profile/widgets/custom_drop_down_widget.dart';
 import 'package:evently_app/providers/config_provider.dart';
@@ -82,9 +84,9 @@ class _ProfileState extends State<Profile> {
           CustomDropDownWidget(
             title: AppLocalizations.of(context)!.language,
             selectedValue: configProvider.isEnglish ? 'English' : 'عربي',
-            valuesOfDropDownList: ['English', 'عربي'],
+            valuesOfDropDownList: const['English', 'عربي'],
             onChanged: (newValue) {
-              configProvider.changeAppLanguage(newValue == 'English' ? Locale('en') : Locale('ar'));
+              configProvider.changeAppLanguage(newValue == 'English' ? const Locale('en') : const Locale('ar'));
             },
           ),
           CustomDropDownWidget(
@@ -112,10 +114,13 @@ class _ProfileState extends State<Profile> {
                   fixedSize: Size(double.infinity, 56.h),
                   foregroundColor: ColorsManager.light,
                   backgroundColor: ColorsManager.red),
-              onPressed: () {},
+              onPressed: () {
+                FirebaseSevices.signOut();
+                Navigator.pushReplacementNamed(context, RoutesManager.signIn);
+              },
               child: Row(
                 children: [
-                  Icon(Icons.output),
+                  const Icon(Icons.output),
                   SizedBox(width: 8.w),
                   Text(
                     AppLocalizations.of(context)!.logout,

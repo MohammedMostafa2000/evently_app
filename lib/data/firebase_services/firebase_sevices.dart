@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/data/models/event_data_model.dart';
 import 'package:evently_app/data/models/user_data_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseSevices {
   static Future<void> addEventToFirestore(EventDataModel event) async {
@@ -98,5 +100,57 @@ class FirebaseSevices {
     DocumentReference<Map<String, dynamic>> userDocument = userCollection.doc(userId);
     DocumentSnapshot<Map<String, dynamic>> documentSnapshot = await userDocument.get();
     return UserDataModel.fromJson(documentSnapshot.data()!);
+  }
+
+  static Future<void> signInWithGoogle(BuildContext context) async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    UserCredential userData = await FirebaseAuth.instance.signInWithCredential(credential);
+
+    UserDataModel user = UserDataModel(
+      name: userData.user!.displayName!,
+      id: userData.user!.uid,
+      email: userData.user!.email!,
+      favoriteEventsIds: [],
+    );
+    await addUserToFirestore(user);
+
+  UserDataModel? userDM = await getUserFromFirestore(user.id);
+    UserDataModel.currentUser = userDM;
+
+
+    // if (context.mounted) {
+    //   Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+    // }
+  }
+
+  static Future<void> updateEvent(EventDataModel event) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    CollectionReference<Map<String, dynamic>> eventsCollection = db.collection('events');
+    DocumentReference<Map<String, dynamic>> eventDocument = eventsCollection.doc(event.eventID);
+    await eventDocument.update(event.toJson(event.eventID));
+  }
+
+  static Future<void> deleteEvent(String eventID) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    CollectionReference<Map<String, dynamic>> eventsCollection = db.collection('events');
+    DocumentReference<Map<String, dynamic>> eventDocument = eventsCollection.doc(eventID);
+    await eventDocument.delete();
+  }
+
+  static Future<void> signOut() async {
+    await GoogleSignIn().signOut();
+    await FirebaseAuth.instance.signOut();
   }
 }

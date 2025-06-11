@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:evently_app/authentication/widgets/custom_text_button.dart';
 import 'package:evently_app/authentication/widgets/custom_text_form_field.dart';
 import 'package:evently_app/core/resources/assets_manager.dart';
@@ -6,6 +8,8 @@ import 'package:evently_app/core/routes/routes_manager.dart';
 import 'package:evently_app/data/firebase_services/firebase_sevices.dart';
 import 'package:evently_app/data/models/event_data_model.dart';
 import 'package:evently_app/data/models/tab_bar_data_model.dart';
+import 'package:evently_app/data/models/user_data_model.dart';
+import 'package:evently_app/main_layout/widgets/custom_container.dart';
 import 'package:evently_app/main_layout/widgets/custom_tab_bar_widget.dart';
 import 'package:evently_app/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +19,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
 class CreateEvent extends StatefulWidget {
-  const CreateEvent({super.key});
-
+  const CreateEvent({
+    super.key,
+    this.event,
+  });
+  final EventDataModel? event;
   @override
   State<CreateEvent> createState() => _CreateEventState();
 }
@@ -34,55 +41,55 @@ class _CreateEventState extends State<CreateEvent> {
       TabBarDataModel(
         id: '2',
         title: AppLocalizations.of(context)!.sports,
-        icon: Icon(Icons.sports_soccer),
+        icon: const Icon(Icons.sports_soccer),
         imagePath: AssetsManager.sportsCard,
       ),
       TabBarDataModel(
         id: '3',
         title: AppLocalizations.of(context)!.birthday,
-        icon: Icon(Icons.cake),
+        icon: const Icon(Icons.cake),
         imagePath: AssetsManager.birthdayCard,
       ),
       TabBarDataModel(
         id: '4',
         title: AppLocalizations.of(context)!.meeting,
-        icon: Icon(Icons.meeting_room_outlined),
+        icon: const Icon(Icons.meeting_room_outlined),
         imagePath: AssetsManager.meetingCard,
       ),
       TabBarDataModel(
         id: '5',
         title: AppLocalizations.of(context)!.gaming,
-        icon: Icon(Icons.videogame_asset),
+        icon: const Icon(Icons.videogame_asset),
         imagePath: AssetsManager.gamingCard,
       ),
       TabBarDataModel(
         id: '6',
         title: AppLocalizations.of(context)!.eating,
-        icon: Icon(Icons.restaurant),
+        icon: const Icon(Icons.restaurant),
         imagePath: AssetsManager.eatingCard,
       ),
       TabBarDataModel(
         id: '7',
         title: AppLocalizations.of(context)!.holiday,
-        icon: Icon(Icons.beach_access),
+        icon: const Icon(Icons.beach_access),
         imagePath: AssetsManager.holidayCard,
       ),
       TabBarDataModel(
         id: '8',
         title: AppLocalizations.of(context)!.exhibition,
-        icon: Icon(Icons.museum),
+        icon: const Icon(Icons.museum),
         imagePath: AssetsManager.exhibitionCard,
       ),
       TabBarDataModel(
         id: '9',
         title: AppLocalizations.of(context)!.work_shop,
-        icon: Icon(Icons.handyman),
+        icon: const Icon(Icons.handyman),
         imagePath: AssetsManager.workshopCard,
       ),
       TabBarDataModel(
         id: '10',
         title: AppLocalizations.of(context)!.book_club,
-        icon: Icon(Icons.menu_book),
+        icon: const Icon(Icons.menu_book),
         imagePath: AssetsManager.bookclubCard,
       ),
     ];
@@ -92,7 +99,22 @@ class _CreateEventState extends State<CreateEvent> {
   @override
   void initState() {
     super.initState();
-    selectedImagePath = AssetsManager.sportsCard; // الصورة الافتراضية
+    _initEditData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.event == null) {
+      selectedImagePath = AssetsManager.sportsCard;
+    } else {
+      selectedImagePath = getTabsList(context)
+          .firstWhere(
+            (element) => element.id == widget.event!.categoryID,
+            orElse: () => getTabsList(context).first,
+          )
+          .imagePath!;
+    }
   }
 
   @override
@@ -100,13 +122,15 @@ class _CreateEventState extends State<CreateEvent> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.create_event,
+          widget.event == null
+              ? AppLocalizations.of(context)!.create_event
+              : AppLocalizations.of(context)!.edit_event,
         ),
       ),
       body: Padding(
         padding: REdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -118,6 +142,7 @@ class _CreateEventState extends State<CreateEvent> {
               ),
               SizedBox(height: 16.h),
               CustomTabBarWidget(
+                initialIndex: widget.event == null ? 0 : int.parse(widget.event!.categoryID) - 2,
                 borderColor: ColorsManager.blue,
                 tabsList: getTabsList(context),
                 indicatorBackgroundColor: ColorsManager.blue,
@@ -156,13 +181,13 @@ class _CreateEventState extends State<CreateEvent> {
               SizedBox(height: 16.h),
               Row(
                 children: [
-                  Icon(Icons.date_range_outlined),
+                  const Icon(Icons.date_range_outlined),
                   SizedBox(width: 10.w),
                   Text(
                     '${selectedDate.day} / ${selectedDate.month} / ${selectedDate.year}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CustomTextButton(
                     title: AppLocalizations.of(context)!.choose_date,
                     onPressed: () => selectEventDate(),
@@ -172,15 +197,15 @@ class _CreateEventState extends State<CreateEvent> {
               SizedBox(height: 8.h),
               Row(
                 children: [
-                  Icon(Icons.date_range_outlined),
+                  const Icon(Icons.date_range_outlined),
                   SizedBox(width: 10.w),
                   Text(
-                    DateFormat('h : m  a').format(
+                    DateFormat('h : mm  a').format(
                       DateTime(0, 0, 0, selectedTime.hour, selectedTime.minute),
                     ),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CustomTextButton(
                     title: AppLocalizations.of(context)!.choose_time,
                     onPressed: () => selectEventTime(),
@@ -205,54 +230,22 @@ class _CreateEventState extends State<CreateEvent> {
                     },
                   );
                 },
-                child: Container(
-                  padding: REdgeInsets.all(8),
-                  height: 62.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.r),
-                    border: Border.all(color: ColorsManager.blue),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: ColorsManager.blue,
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        padding: REdgeInsets.all(12),
-                        child: Icon(
-                          Icons.gps_fixed,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      SizedBox(width: 8.w),
-                      Expanded(
-                        child: Text(
-                          location == null
-                              ? AppLocalizations.of(context)!.choose_event_location
-                              : '${location!.latitude}, ${location!.longitude}',
-                          style: TextStyle(
-                            color: ColorsManager.blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: ColorsManager.blue,
-                      ),
-                    ],
-                  ),
+                child: CustomContainer(
+                  location: location,
+                  prefixIcon: Icons.gps_fixed,
+                  suffixIcon: Icons.arrow_forward_rounded,
+                  title: location == null
+                      ? AppLocalizations.of(context)!.choose_event_location
+                      : '${location!.latitude}, ${location!.longitude}',
                 ),
               ),
               SizedBox(height: 16.h),
               CustomElevatedButton(
-                title: AppLocalizations.of(context)!.add_event,
+                title: widget.event == null
+                    ? AppLocalizations.of(context)!.add_event
+                    : AppLocalizations.of(context)!.update_event,
                 onPressed: () {
-                  addEvent();
+                  widget.event == null ? addEvent() : updateEvent();
                   Navigator.pop(context);
                 },
               ),
@@ -266,6 +259,9 @@ class _CreateEventState extends State<CreateEvent> {
 
   void addEvent() async {
     EventDataModel event = EventDataModel(
+      userID: UserDataModel.currentUser!.id,
+      lat: location?.latitude,
+      lng: location?.longitude,
       title: titleController.text,
       description: descriptionController.text,
       categoryID: selectedCategoryId,
@@ -279,7 +275,7 @@ class _CreateEventState extends State<CreateEvent> {
     try {
       await FirebaseSevices.addEventToFirestore(event);
     } on Exception catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 
@@ -306,6 +302,44 @@ class _CreateEventState extends State<CreateEvent> {
       setState(() {
         selectedTime = pickedTime;
       });
+    }
+  }
+
+  void _initEditData() {
+    if (widget.event != null) {
+      titleController.text = widget.event!.title;
+      descriptionController.text = widget.event!.description;
+      selectedCategoryId = widget.event!.categoryID;
+      selectedDate = widget.event!.dateTime;
+      selectedTime =
+          TimeOfDay(hour: widget.event!.dateTime.hour, minute: widget.event!.dateTime.minute);
+
+      location = LatLng(widget.event!.lat ?? 0, widget.event!.lng ?? 0);
+    }
+  }
+
+  updateEvent() async {
+    EventDataModel event = EventDataModel(
+      userID: UserDataModel.currentUser!.id,
+      lat: location?.latitude,
+      lng: location?.longitude,
+      title: titleController.text,
+      description: descriptionController.text,
+      categoryID: selectedCategoryId,
+      eventID: widget.event!.eventID,
+      dateTime: selectedDate,
+      time: {
+        'hour': selectedTime.hour,
+        'minute': selectedTime.minute,
+      },
+    );
+    try {
+      await FirebaseSevices.updateEvent(event);
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    } on Exception catch (e) {
+      log(e.toString());
     }
   }
 }

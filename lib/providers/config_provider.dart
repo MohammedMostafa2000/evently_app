@@ -4,7 +4,7 @@ import 'package:location/location.dart';
 
 class ConfigProvider extends ChangeNotifier {
   ThemeMode currentTheme = ThemeMode.light;
-  Locale currentLanguage = Locale('en');
+  Locale currentLanguage = const Locale('en');
 
   bool get isLight => currentTheme == ThemeMode.light;
   bool get isEnglish => currentLanguage.languageCode == 'en';
@@ -66,17 +66,12 @@ class ConfigProvider extends ChangeNotifier {
     return isServiceEnabled;
   }
 
-  CameraPosition initialCameraPosition = CameraPosition(
-    target: LatLng(30.008032773367237, 32.521857087633094),
+  CameraPosition initialCameraPosition = const CameraPosition(
+    target: LatLng(30.098008102245288, 31.245393501046134),
     zoom: 13,
   );
 
-  Set<Marker> markers = {
-    Marker(
-      markerId: MarkerId('1'),
-      position: LatLng(30.008032773367237, 32.521857087633094),
-    ),
-  };
+  Set<Marker> markers = {};
 
   late GoogleMapController googleMapController;
 
@@ -91,7 +86,7 @@ class ConfigProvider extends ChangeNotifier {
     );
     markers = {
       Marker(
-        markerId: MarkerId('1'),
+        markerId: const MarkerId('1'),
         position: LatLng(location.latitude, location.longitude),
       ),
     };
