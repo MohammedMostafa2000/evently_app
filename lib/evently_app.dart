@@ -20,7 +20,7 @@ class _EventlyAppState extends State<EventlyApp> {
   bool? isFirstTime;
 
   void _checkFirstTime() async {
-    final result = await SharedPrefs.isFirstTime();
+    final result = await SharedPrefs.checkFirstTime();
     setState(() {
       isFirstTime = result;
     });
@@ -39,7 +39,11 @@ class _EventlyAppState extends State<EventlyApp> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           backgroundColor: ColorsManager.light,
-          body: Center(child: CircularProgressIndicator()),
+          body: Center(
+            child: CircularProgressIndicator(
+              color: ColorsManager.blue,
+            ),
+          ),
         ),
       );
     }
@@ -51,7 +55,7 @@ class _EventlyAppState extends State<EventlyApp> {
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutesManager.router,
-        initialRoute: isFirstTime == true ? RoutesManager.onBoarding : RoutesManager.signIn,
+        initialRoute: isFirstTime==true ? RoutesManager.onBoarding : RoutesManager.signIn,
         theme: ThemeManager.light,
         darkTheme: ThemeManager.dark,
         themeMode: Provider.of<ConfigProvider>(context).currentTheme,

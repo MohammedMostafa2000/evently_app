@@ -4,6 +4,7 @@ import 'package:evently_app/data/firebase_services/firebase_sevices.dart';
 import 'package:evently_app/data/models/event_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocoding/geocoding.dart';
 
 class CustomMapEventCard extends StatefulWidget {
   const CustomMapEventCard({
@@ -31,16 +32,27 @@ class _CustomEventCardState extends State<CustomMapEventCard> {
     '10': AssetsManager.bookclubCard,
   };
 
+  String? address;
+
+  Future<void> convertLatLngToAddress() async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(widget.event.lat ?? 0, widget.event.lng ?? 0);
+    setState(() {
+      address = '${placemarks[0].administrativeArea}, ${placemarks[0].country}';
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _loadFavoriteStatus();
+    convertLatLngToAddress();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: REdgeInsets.only(right: 10),
+      margin: REdgeInsets.symmetric(horizontal: 5),
       padding: REdgeInsets.all(8),
       height: 362.h,
       width: 320.w,
@@ -68,7 +80,15 @@ class _CustomEventCardState extends State<CustomMapEventCard> {
                 widget.event.title,
                 maxLines: 2,
               ),
-              const Text('📌 cairo, egypt'),
+              SizedBox(
+                width: 155.w, 
+                child: Text(
+                  address ?? 'loading...',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
             ],
           )
         ],

@@ -49,9 +49,10 @@ class OnBoarding extends StatelessWidget {
             icon: Icons.arrow_forward,
           ),
           onDone: () async {
-            await SharedPrefs.setFirstTime(value: false);
-
-            Navigator.pushReplacementNamed(context, RoutesManager.signIn);
+            await SharedPrefs.setFirstTime();
+            if (context.mounted) {
+              Navigator.pushReplacementNamed(context, RoutesManager.signIn);
+            }
           },
           pages: [
             PageViewModel(

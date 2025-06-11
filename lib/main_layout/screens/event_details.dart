@@ -1,4 +1,3 @@
-
 import 'package:evently_app/core/resources/assets_manager.dart';
 import 'package:evently_app/core/resources/colors_manager.dart';
 import 'package:evently_app/core/routes/routes_manager.dart';
@@ -8,33 +7,58 @@ import 'package:evently_app/data/models/user_data_model.dart';
 import 'package:evently_app/main_layout/widgets/custom_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
-class EventDetails extends StatelessWidget {
-  EventDetails({
+class EventDetails extends StatefulWidget {
+  const EventDetails({
     super.key,
     required this.event,
   });
   final EventDataModel event;
+
+  @override
+  State<EventDetails> createState() => _EventDetailsState();
+}
+
+class _EventDetailsState extends State<EventDetails> {
   final Map<String, String> imagesCategory = AssetsManager.imagesCategory;
+
+  String? address;
+
+  Future<void> convertLatLngToAddress() async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(widget.event.lat ?? 0, widget.event.lng ?? 0);
+    setState(() {
+      address = '${placemarks[0].subAdministrativeArea}, ${placemarks[0].country}';
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    convertLatLngToAddress();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Event Details'),
-        actions: event.userID == UserDataModel.currentUser!.id
+        actions: widget.event.userID == UserDataModel.currentUser!.id
             ? [
                 IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, RoutesManager.createEvent, arguments: event);
+                    Navigator.pushNamed(context, RoutesManager.createEvent,
+                        arguments: widget.event);
                   },
                   icon: const Icon(Icons.edit),
                 ),
                 IconButton(
                   onPressed: () {
-                    FirebaseSevices.deleteEvent(event.eventID);
+                    FirebaseSevices.deleteEvent(widget.event.eventID);
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -55,11 +79,12 @@ class EventDetails extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(16.r),
-                child: Image.asset(imagesCategory[event.categoryID] ?? AssetsManager.sportsCard),
+                child: Image.asset(
+                    imagesCategory[widget.event.categoryID] ?? AssetsManager.sportsCard),
               ),
               SizedBox(height: 10.h),
               Text(
-                event.title,
+                widget.event.title,
                 style: GoogleFonts.inter(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w500,
@@ -69,21 +94,21 @@ class EventDetails extends StatelessWidget {
               CustomContainer(
                 prefixIcon: Icons.calendar_month,
                 title:
-                    '${event.dateTime.day} / ${event.dateTime.month} / ${event.dateTime.year} \n${DateFormat('h : mm  a').format(
+                    '${widget.event.dateTime.day} / ${widget.event.dateTime.month} / ${widget.event.dateTime.year} \n${DateFormat('h : mm  a').format(
                   DateTime(
                     0,
                     0,
                     0,
-                    event.dateTime.hour,
-                    event.dateTime.minute,
+                    widget.event.dateTime.hour,
+                    widget.event.dateTime.minute,
                   ),
                 )}',
               ),
               SizedBox(height: 10.h),
-              const CustomContainer(
+              CustomContainer(
                 suffixIcon: Icons.arrow_forward_ios_rounded,
                 prefixIcon: Icons.gps_fixed,
-                title: 'Cairo, Egypt',
+                title: address ?? 'Loading address...',
               ),
               SizedBox(height: 10.h),
               Container(
@@ -104,12 +129,12 @@ class EventDetails extends StatelessWidget {
                     zoomGesturesEnabled: false,
                     initialCameraPosition: CameraPosition(
                       zoom: 13,
-                      target: LatLng(event.lat ?? 0, event.lng ?? 0),
+                      target: LatLng(widget.event.lat ?? 0, widget.event.lng ?? 0),
                     ),
                     markers: {
                       Marker(
                         markerId: const MarkerId('1'),
-                        position: LatLng(event.lat ?? 0, event.lng ?? 0),
+                        position: LatLng(widget.event.lat ?? 0, widget.event.lng ?? 0),
                       ),
                     },
                   ),
@@ -117,7 +142,7 @@ class EventDetails extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               Text(
-                'Description\n\n${event.description}',
+                'Description\n\n${widget.event.description}',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(height: 30.h),

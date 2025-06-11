@@ -129,8 +129,8 @@ class _SignUpState extends State<SignUp> {
     try {
       DialogUtils.showLoadingDialog('Loading...', context);
       await FirebaseSevices.createAccountWithEmailAndPassword(
-        emailAddress: emailController.text,
-        password: passwordController.text,
+        emailAddress: emailController.text.trim(),
+        password: passwordController.text.trim(),
         name: nameController.text,
       );
       if (!mounted) return;

@@ -138,7 +138,7 @@ class _SignInState extends State<SignIn> {
     try {
       DialogUtils.showLoadingDialog('Loading...', context);
       await FirebaseSevices.loginWithEmailAndPassword(
-          emailController.text, passwordController.text);
+          emailController.text.trim(), passwordController.text.trim());
       if (!mounted) return;
       DialogUtils.hideDialog(context);
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:evently_app/data/firebase_services/firebase_sevices.dart';
 import 'package:evently_app/data/models/event_data_model.dart';
 import 'package:evently_app/main_layout/widgets/custom_map_event_card.dart';
@@ -18,6 +20,7 @@ class _MaptabState extends State<Maptab> {
   late ConfigProvider mainProvider;
 
   String get selectedCategoryId => '1';
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +35,7 @@ class _MaptabState extends State<Maptab> {
         alignment: Alignment.bottomCenter,
         children: [
           GoogleMap(
+            zoomControlsEnabled: false,
             onMapCreated: (controller) {
               provider.googleMapController = controller;
             },
@@ -39,7 +43,7 @@ class _MaptabState extends State<Maptab> {
               provider.goToLocation(latLng);
             },
             initialCameraPosition: provider.initialCameraPosition,
-            mapType: MapType.normal,
+            mapType: MapType.satellite,
             markers: provider.markers,
           ),
           Positioned(
@@ -67,8 +71,9 @@ class _MaptabState extends State<Maptab> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
+                          log('${events[index].lat}, ${events[index].lng}');
                           provider
-                              .goToLocation(LatLng(events[index].lat ?? 0, events[index].lat ?? 0));
+                              .goToLocation(LatLng(events[index].lat ?? 0, events[index].lng ?? 0));
                         },
                         child: CustomMapEventCard(
                           event: events[index],
