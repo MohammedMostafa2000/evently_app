@@ -8,5 +8,4 @@ class ColorsManager {
   static const Color white = Color(0xffffffff);
   static const Color balck = Color(0xff1C1C1C);
   static const Color darkBlue = Color(0xff101127);
-  
 }

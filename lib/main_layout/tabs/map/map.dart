@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:evently_app/data/firebase_services/firebase_sevices.dart';
 import 'package:evently_app/data/models/event_data_model.dart';
 import 'package:evently_app/main_layout/widgets/custom_map_event_card.dart';
@@ -25,7 +24,7 @@ class _MaptabState extends State<Maptab> {
   void initState() {
     super.initState();
     mainProvider = Provider.of<ConfigProvider>(context, listen: false);
-    mainProvider.getLocation();
+    // mainProvider.getLocation();
   }
 
   @override
@@ -53,7 +52,8 @@ class _MaptabState extends State<Maptab> {
             child: SizedBox(
               height: 94.h,
               child: StreamBuilder<List<EventDataModel>>(
-                stream: FirebaseSevices.getEventsStreamFromFirestore(selectedCategoryId),
+                stream: FirebaseSevices.getEventsStreamFromFirestore(
+                    selectedCategoryId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -72,8 +72,8 @@ class _MaptabState extends State<Maptab> {
                       return InkWell(
                         onTap: () {
                           log('${events[index].lat}, ${events[index].lng}');
-                          provider
-                              .goToLocation(LatLng(events[index].lat ?? 0, events[index].lng ?? 0));
+                          provider.goToLocation(LatLng(
+                              events[index].lat ?? 0, events[index].lng ?? 0));
                         },
                         child: CustomMapEventCard(
                           event: events[index],

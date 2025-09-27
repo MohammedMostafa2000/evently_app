@@ -8,22 +8,26 @@ import 'package:google_sign_in/google_sign_in.dart';
 class FirebaseSevices {
   static Future<void> addEventToFirestore(EventDataModel event) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    CollectionReference<Map<String, dynamic>> eventsCollection = db.collection('events');
+    CollectionReference<Map<String, dynamic>> eventsCollection =
+        db.collection('events');
     DocumentReference<Map<String, dynamic>> document = eventsCollection.doc();
     String eventID = document.id;
     document.set(event.toJson(eventID));
   }
 
-  static Stream<List<EventDataModel>> getEventsStreamFromFirestore(String categoryID) async* {
-    Stream<QuerySnapshot<Map<String, dynamic>>> snapshots = FirebaseFirestore.instance
+  static Stream<List<EventDataModel>> getEventsStreamFromFirestore(
+      String categoryID) async* {
+    Stream<QuerySnapshot<Map<String, dynamic>>> snapshots = FirebaseFirestore
+        .instance
         .collection('events')
         .orderBy('date')
         .where('categoryID', isEqualTo: categoryID == '1' ? null : categoryID)
         .snapshots();
-    Stream<List<EventDataModel>> eventDataModelList = snapshots.map((querySnapshot) => querySnapshot
-        .docs
-        .map((queryDocumentSnapshot) => EventDataModel.fromJson(queryDocumentSnapshot.data()))
-        .toList());
+    Stream<List<EventDataModel>> eventDataModelList = snapshots.map(
+        (querySnapshot) => querySnapshot.docs
+            .map((queryDocumentSnapshot) =>
+                EventDataModel.fromJson(queryDocumentSnapshot.data()))
+            .toList());
     yield* eventDataModelList;
   }
 
@@ -34,13 +38,15 @@ class FirebaseSevices {
       return Stream.value([]);
     }
 
-    Stream<QuerySnapshot<Map<String, dynamic>>> snapshots = FirebaseFirestore.instance
+    Stream<QuerySnapshot<Map<String, dynamic>>> snapshots = FirebaseFirestore
+        .instance
         .collection('events')
         .orderBy('date')
         .where('eventID', whereIn: favoriteEventsIds)
         .snapshots();
-    return snapshots.map((querySnapshot) =>
-        querySnapshot.docs.map((doc) => EventDataModel.fromJson(doc.data())).toList());
+    return snapshots.map((querySnapshot) => querySnapshot.docs
+        .map((doc) => EventDataModel.fromJson(doc.data()))
+        .toList());
   }
 
   static Future<void> addFavoriteEventToFirestore(String eventID) async {
@@ -48,8 +54,10 @@ class FirebaseSevices {
     currentUser.favoriteEventsIds.add(eventID);
     // update user data
     FirebaseFirestore db = FirebaseFirestore.instance;
-    CollectionReference<Map<String, dynamic>> userCollection = db.collection('users');
-    DocumentReference<Map<String, dynamic>> userDocument = userCollection.doc(currentUser.id);
+    CollectionReference<Map<String, dynamic>> userCollection =
+        db.collection('users');
+    DocumentReference<Map<String, dynamic>> userDocument =
+        userCollection.doc(currentUser.id);
     await userDocument.set(currentUser.toJson());
   }
 
@@ -58,8 +66,10 @@ class FirebaseSevices {
     currentUser.favoriteEventsIds.remove(eventID);
     // update user data
     FirebaseFirestore db = FirebaseFirestore.instance;
-    CollectionReference<Map<String, dynamic>> userCollection = db.collection('users');
-    DocumentReference<Map<String, dynamic>> userDocument = userCollection.doc(currentUser.id);
+    CollectionReference<Map<String, dynamic>> userCollection =
+        db.collection('users');
+    DocumentReference<Map<String, dynamic>> userDocument =
+        userCollection.doc(currentUser.id);
     await userDocument.set(currentUser.toJson());
   }
 
@@ -69,17 +79,24 @@ class FirebaseSevices {
   }
 
   static Future<void> createAccountWithEmailAndPassword(
-      {required String emailAddress, required String password, required String name}) async {
-    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      {required String emailAddress,
+      required String password,
+      required String name}) async {
+    final credential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: emailAddress,
       password: password,
     );
     UserDataModel user = UserDataModel(
-        name: name, id: credential.user!.uid, email: emailAddress, favoriteEventsIds: []);
+        name: name,
+        id: credential.user!.uid,
+        email: emailAddress,
+        favoriteEventsIds: []);
     await addUserToFirestore(user);
   }
 
-  static Future<void> loginWithEmailAndPassword(String emailAddress, String password) async {
+  static Future<void> loginWithEmailAndPassword(
+      String emailAddress, String password) async {
     final credential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddress, password: password);
 
@@ -89,16 +106,21 @@ class FirebaseSevices {
 
   static Future<void> addUserToFirestore(UserDataModel user) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    CollectionReference<Map<String, dynamic>> usersCollection = db.collection('users');
-    DocumentReference<Map<String, dynamic>> document = usersCollection.doc(user.id);
+    CollectionReference<Map<String, dynamic>> usersCollection =
+        db.collection('users');
+    DocumentReference<Map<String, dynamic>> document =
+        usersCollection.doc(user.id);
     return document.set(user.toJson());
   }
 
   static Future<UserDataModel?> getUserFromFirestore(String userId) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    CollectionReference<Map<String, dynamic>> userCollection = db.collection('users');
-    DocumentReference<Map<String, dynamic>> userDocument = userCollection.doc(userId);
-    DocumentSnapshot<Map<String, dynamic>> documentSnapshot = await userDocument.get();
+    CollectionReference<Map<String, dynamic>> userCollection =
+        db.collection('users');
+    DocumentReference<Map<String, dynamic>> userDocument =
+        userCollection.doc(userId);
+    DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+        await userDocument.get();
     return UserDataModel.fromJson(documentSnapshot.data()!);
   }
 
@@ -107,7 +129,8 @@ class FirebaseSevices {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -116,7 +139,8 @@ class FirebaseSevices {
     );
 
     // Once signed in, return the UserCredential
-    UserCredential userData = await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential userData =
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
     UserDataModel user = UserDataModel(
       name: userData.user!.displayName!,
@@ -126,9 +150,8 @@ class FirebaseSevices {
     );
     await addUserToFirestore(user);
 
-  UserDataModel? userDM = await getUserFromFirestore(user.id);
+    UserDataModel? userDM = await getUserFromFirestore(user.id);
     UserDataModel.currentUser = userDM;
-
 
     // if (context.mounted) {
     //   Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
@@ -137,15 +160,19 @@ class FirebaseSevices {
 
   static Future<void> updateEvent(EventDataModel event) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    CollectionReference<Map<String, dynamic>> eventsCollection = db.collection('events');
-    DocumentReference<Map<String, dynamic>> eventDocument = eventsCollection.doc(event.eventID);
+    CollectionReference<Map<String, dynamic>> eventsCollection =
+        db.collection('events');
+    DocumentReference<Map<String, dynamic>> eventDocument =
+        eventsCollection.doc(event.eventID);
     await eventDocument.update(event.toJson(event.eventID));
   }
 
   static Future<void> deleteEvent(String eventID) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    CollectionReference<Map<String, dynamic>> eventsCollection = db.collection('events');
-    DocumentReference<Map<String, dynamic>> eventDocument = eventsCollection.doc(eventID);
+    CollectionReference<Map<String, dynamic>> eventsCollection =
+        db.collection('events');
+    DocumentReference<Map<String, dynamic>> eventDocument =
+        eventsCollection.doc(eventID);
     await eventDocument.delete();
   }
 

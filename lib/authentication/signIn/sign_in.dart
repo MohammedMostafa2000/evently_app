@@ -62,7 +62,8 @@ class _SignInState extends State<SignIn> {
                   controller: passwordController,
                   label: AppLocalizations.of(context)!.password,
                   prefixIcon: Icons.lock,
-                  suffixIcon: isSecure ? Icons.visibility_off : Icons.visibility,
+                  suffixIcon:
+                      isSecure ? Icons.visibility_off : Icons.visibility,
                   isSecure: isSecure,
                   onClicked: () {
                     isSecure = !isSecure;
@@ -76,7 +77,8 @@ class _SignInState extends State<SignIn> {
                     CustomTextButton(
                       title: AppLocalizations.of(context)!.forget_password,
                       onPressed: () {
-                        Navigator.pushNamed(context, RoutesManager.resetPassword);
+                        Navigator.pushNamed(
+                            context, RoutesManager.resetPassword);
                       },
                     ),
                   ],
@@ -97,7 +99,8 @@ class _SignInState extends State<SignIn> {
                     CustomTextButton(
                       title: AppLocalizations.of(context)!.create_account,
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, RoutesManager.signUp);
+                        Navigator.pushReplacementNamed(
+                            context, RoutesManager.signUp);
                       },
                     ),
                   ],
@@ -123,8 +126,8 @@ class _SignInState extends State<SignIn> {
                   ],
                 ),
                 SizedBox(height: 24.h),
-                 CustomButton(
-                  onTap: () => _loginWithGoogle() ,
+                CustomButton(
+                  onTap: () => _loginWithGoogle(),
                 )
               ],
             ),
@@ -147,7 +150,8 @@ class _SignInState extends State<SignIn> {
       if (e.code == 'user-not-found') {
         DialogUtils.showMessageDialog('No user found for that email.', context);
       } else if (e.code == 'wrong-password') {
-        DialogUtils.showMessageDialog('Wrong password provided for that user.', context);
+        DialogUtils.showMessageDialog(
+            'Wrong password provided for that user.', context);
       }
     }
   }

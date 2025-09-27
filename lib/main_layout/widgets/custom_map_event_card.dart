@@ -35,8 +35,8 @@ class _CustomEventCardState extends State<CustomMapEventCard> {
   String? address;
 
   Future<void> convertLatLngToAddress() async {
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(widget.event.lat ?? 0, widget.event.lng ?? 0);
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        widget.event.lat ?? 0, widget.event.lng ?? 0);
     setState(() {
       address = '${placemarks[0].administrativeArea}, ${placemarks[0].country}';
     });
@@ -52,10 +52,10 @@ class _CustomEventCardState extends State<CustomMapEventCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: REdgeInsets.symmetric(horizontal: 5),
+      margin: REdgeInsets.symmetric(horizontal: 10),
       padding: REdgeInsets.all(8),
       height: 362.h,
-      width: 320.w,
+      width: 250.w,
       decoration: BoxDecoration(
         color: ColorsManager.light,
         border: Border.all(
@@ -64,24 +64,33 @@ class _CustomEventCardState extends State<CustomMapEventCard> {
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16.r),
-            child: Image.asset(categoryImages[widget.event.categoryID]!),
+          SizedBox(
+            height: double.infinity,
+            width: 100.w,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.r),
+              child: Image.asset(
+                categoryImages[widget.event.categoryID]!,
+                fit: BoxFit.fill,
+              ),
+            ),
           ),
           SizedBox(width: 10.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(
-                widget.event.title,
-                maxLines: 2,
+              SizedBox(
+                width: 120.w,
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  widget.event.title,
+                  maxLines: 1,
+                ),
               ),
               SizedBox(
-                width: 155.w, 
+                width: 120.w,
                 child: Text(
                   address ?? 'loading...',
                   overflow: TextOverflow.ellipsis,

@@ -32,11 +32,14 @@ class OnBoarding extends StatelessWidget {
               activeColor: ColorsManager.blue,
               color: Colors.black),
           backStyle: const ButtonStyle(
-              alignment: Alignment.centerLeft, padding: WidgetStatePropertyAll(EdgeInsets.zero)),
+              alignment: Alignment.centerLeft,
+              padding: WidgetStatePropertyAll(EdgeInsets.zero)),
           nextStyle: const ButtonStyle(
-              alignment: Alignment.centerRight, padding: WidgetStatePropertyAll(EdgeInsets.zero)),
+              alignment: Alignment.centerRight,
+              padding: WidgetStatePropertyAll(EdgeInsets.zero)),
           doneStyle: const ButtonStyle(
-              alignment: Alignment.centerRight, padding: WidgetStatePropertyAll(EdgeInsets.zero)),
+              alignment: Alignment.centerRight,
+              padding: WidgetStatePropertyAll(EdgeInsets.zero)),
           // controlsPadding: EdgeInsets.zero,
           showBackButton: true,
           back: const OnboardingButton(

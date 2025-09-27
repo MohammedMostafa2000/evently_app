@@ -113,7 +113,8 @@ class _SignUpState extends State<SignUp> {
                   CustomTextButton(
                     title: AppLocalizations.of(context)!.login,
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, RoutesManager.signIn);
+                      Navigator.pushReplacementNamed(
+                          context, RoutesManager.signIn);
                     },
                   ),
                 ],
@@ -139,9 +140,11 @@ class _SignUpState extends State<SignUp> {
       DialogUtils.hideDialog(context);
 
       if (e.code == 'weak-password') {
-        DialogUtils.showMessageDialog('The password provided is too weak.', context);
+        DialogUtils.showMessageDialog(
+            'The password provided is too weak.', context);
       } else if (e.code == 'email-already-in-use') {
-        DialogUtils.showMessageDialog('The account already exists for that email.', context);
+        DialogUtils.showMessageDialog(
+            'The account already exists for that email.', context);
       }
     } catch (e) {
       DialogUtils.showMessageDialog('$e', context);

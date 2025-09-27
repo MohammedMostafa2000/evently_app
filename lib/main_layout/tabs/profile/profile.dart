@@ -32,10 +32,12 @@ class _ProfileState extends State<Profile> {
           Directionality(
             textDirection: TextDirection.ltr,
             child: Container(
-              padding: REdgeInsets.only(left: 16, right: 16, bottom: 16, top: 50),
+              padding:
+                  REdgeInsets.only(left: 16, right: 16, bottom: 16, top: 50),
               decoration: BoxDecoration(
                 color: ColorsManager.blue,
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(60.r)),
+                borderRadius:
+                    BorderRadius.only(bottomLeft: Radius.circular(60.r)),
               ),
               height: 204.h,
               width: double.infinity,
@@ -84,9 +86,11 @@ class _ProfileState extends State<Profile> {
           CustomDropDownWidget(
             title: AppLocalizations.of(context)!.language,
             selectedValue: configProvider.isEnglish ? 'English' : 'عربي',
-            valuesOfDropDownList: const['English', 'عربي'],
+            valuesOfDropDownList: const ['English', 'عربي'],
             onChanged: (newValue) {
-              configProvider.changeAppLanguage(newValue == 'English' ? const Locale('en') : const Locale('ar'));
+              configProvider.changeAppLanguage(newValue == 'English'
+                  ? const Locale('en')
+                  : const Locale('ar'));
             },
           ),
           CustomDropDownWidget(
@@ -100,7 +104,9 @@ class _ProfileState extends State<Profile> {
             ],
             onChanged: (newTheme) {
               configProvider.changeAppTheme(
-                  newTheme == 'Light' || newTheme == 'فاتح' ? ThemeMode.light : ThemeMode.dark);
+                  newTheme == 'Light' || newTheme == 'فاتح'
+                      ? ThemeMode.light
+                      : ThemeMode.dark);
             },
           ),
           SizedBox(height: 200.h),

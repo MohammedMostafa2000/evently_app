@@ -19,7 +19,7 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int selectedIndex = 0;
-  List<Widget> tabs =const [
+  List<Widget> tabs = const [
     Home(),
     Maptab(),
     Favorite(),

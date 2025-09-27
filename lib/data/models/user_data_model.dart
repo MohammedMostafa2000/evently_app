@@ -24,7 +24,8 @@ class UserDataModel {
           id: json['id'],
           email: json['email'],
           name: json['name'],
-          favoriteEventsIds:
-              json['favoriteEventsIds'] != null ? List<String>.from(json['favoriteEventsIds']) : [],
+          favoriteEventsIds: json['favoriteEventsIds'] != null
+              ? List<String>.from(json['favoriteEventsIds'])
+              : [],
         );
 }

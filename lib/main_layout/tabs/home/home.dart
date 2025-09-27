@@ -129,10 +129,11 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        // SizedBox(height: 8.h),
+        SizedBox(height: 12.h),
         Expanded(
           child: StreamBuilder<List<EventDataModel>>(
-            stream: FirebaseSevices.getEventsStreamFromFirestore(selectedCategoryId),
+            stream: FirebaseSevices.getEventsStreamFromFirestore(
+                selectedCategoryId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -144,6 +145,7 @@ class _HomeState extends State<Home> {
 
               final events = snapshot.data!;
               return ListView.builder(
+                padding: EdgeInsets.zero,
                 physics: const BouncingScrollPhysics(),
                 itemCount: events.length,
                 itemBuilder: (context, index) {

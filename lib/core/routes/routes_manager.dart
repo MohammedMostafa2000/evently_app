@@ -23,7 +23,7 @@ class RoutesManager {
     switch (settings.name) {
       case signUp:
         return CupertinoPageRoute(builder: (context) => const SignUp());
-        case resetPassword:
+      case resetPassword:
         return CupertinoPageRoute(builder: (context) => const ResetPassword());
       case onBoarding:
         return CupertinoPageRoute(builder: (context) => const OnBoarding());

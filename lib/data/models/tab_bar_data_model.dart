@@ -9,6 +9,6 @@ class TabBarDataModel {
     required this.id,
     required this.title,
     required this.icon,
-     this.imagePath,
+    this.imagePath,
   });
 }

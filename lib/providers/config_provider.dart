@@ -92,7 +92,4 @@ class ConfigProvider extends ChangeNotifier {
     };
     notifyListeners();
   }
-
-
-  
 }

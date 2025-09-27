@@ -29,10 +29,11 @@ class _EventDetailsState extends State<EventDetails> {
   String? address;
 
   Future<void> convertLatLngToAddress() async {
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(widget.event.lat ?? 0, widget.event.lng ?? 0);
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        widget.event.lat ?? 0, widget.event.lng ?? 0);
     setState(() {
-      address = '${placemarks[0].subAdministrativeArea}, ${placemarks[0].country}';
+      address =
+          '${placemarks[0].subAdministrativeArea}, ${placemarks[0].country}';
     });
   }
 
@@ -79,8 +80,8 @@ class _EventDetailsState extends State<EventDetails> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(16.r),
-                child: Image.asset(
-                    imagesCategory[widget.event.categoryID] ?? AssetsManager.sportsCard),
+                child: Image.asset(imagesCategory[widget.event.categoryID] ??
+                    AssetsManager.sportsCard),
               ),
               SizedBox(height: 10.h),
               Text(
@@ -129,12 +130,14 @@ class _EventDetailsState extends State<EventDetails> {
                     zoomGesturesEnabled: false,
                     initialCameraPosition: CameraPosition(
                       zoom: 13,
-                      target: LatLng(widget.event.lat ?? 0, widget.event.lng ?? 0),
+                      target:
+                          LatLng(widget.event.lat ?? 0, widget.event.lng ?? 0),
                     ),
                     markers: {
                       Marker(
                         markerId: const MarkerId('1'),
-                        position: LatLng(widget.event.lat ?? 0, widget.event.lng ?? 0),
+                        position: LatLng(
+                            widget.event.lat ?? 0, widget.event.lng ?? 0),
                       ),
                     },
                   ),

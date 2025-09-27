@@ -142,7 +142,9 @@ class _CreateEventState extends State<CreateEvent> {
               ),
               SizedBox(height: 16.h),
               CustomTabBarWidget(
-                initialIndex: widget.event == null ? 0 : int.parse(widget.event!.categoryID) - 2,
+                initialIndex: widget.event == null
+                    ? 0
+                    : int.parse(widget.event!.categoryID) - 2,
                 borderColor: ColorsManager.blue,
                 tabsList: getTabsList(context),
                 indicatorBackgroundColor: ColorsManager.blue,
@@ -150,8 +152,9 @@ class _CreateEventState extends State<CreateEvent> {
                 unselectedLabelColor: ColorsManager.blue,
                 onTabSelected: (id) {
                   selectedCategoryId = id;
-                  selectedImagePath =
-                      getTabsList(context).firstWhere((element) => element.id == id).imagePath!;
+                  selectedImagePath = getTabsList(context)
+                      .firstWhere((element) => element.id == id)
+                      .imagePath!;
 
                   setState(() {});
                 },
@@ -311,8 +314,9 @@ class _CreateEventState extends State<CreateEvent> {
       descriptionController.text = widget.event!.description;
       selectedCategoryId = widget.event!.categoryID;
       selectedDate = widget.event!.dateTime;
-      selectedTime =
-          TimeOfDay(hour: widget.event!.dateTime.hour, minute: widget.event!.dateTime.minute);
+      selectedTime = TimeOfDay(
+          hour: widget.event!.dateTime.hour,
+          minute: widget.event!.dateTime.minute);
 
       location = LatLng(widget.event!.lat ?? 0, widget.event!.lng ?? 0);
     }

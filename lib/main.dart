@@ -14,7 +14,6 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ConfigProvider()),
-        // ChangeNotifierProvider(create: (context) => FavoriteEventsProvider()),
       ],
       child: const EventlyApp(),
     ),

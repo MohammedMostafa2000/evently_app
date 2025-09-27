@@ -33,7 +33,9 @@ class _FavoriteState extends State<Favorite> {
           itemCount: events.length,
           itemBuilder: (context, index) {
             final event = events[index];
-            return CustomEventCard(event: event);
+            return CustomEventCard(
+              event: event,
+            );
           },
         );
       },

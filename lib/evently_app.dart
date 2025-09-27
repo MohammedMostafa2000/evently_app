@@ -55,7 +55,9 @@ class _EventlyAppState extends State<EventlyApp> {
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RoutesManager.router,
-        initialRoute: isFirstTime==true ? RoutesManager.onBoarding : RoutesManager.signIn,
+        initialRoute: isFirstTime == true
+            ? RoutesManager.onBoarding
+            : RoutesManager.signIn,
         theme: ThemeManager.light,
         darkTheme: ThemeManager.dark,
         themeMode: Provider.of<ConfigProvider>(context).currentTheme,

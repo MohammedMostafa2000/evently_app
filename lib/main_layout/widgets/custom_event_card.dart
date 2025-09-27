@@ -57,7 +57,8 @@ class _CustomEventCardState extends State<CustomEventCard> {
         ),
         borderRadius: BorderRadius.circular(16.r),
         image: DecorationImage(
-          image: AssetImage(categoryImages[widget.event.categoryID] ?? AssetsManager.birthdayCard),
+          image: AssetImage(categoryImages[widget.event.categoryID] ??
+              AssetsManager.birthdayCard),
           fit: BoxFit.fill,
         ),
       ),
@@ -112,8 +113,11 @@ class _CustomEventCardState extends State<CustomEventCard> {
                         isFavorite = !isFavorite;
                       });
                       isFavorite
-                          ? FirebaseSevices.addFavoriteEventToFirestore(widget.event.eventID)
-                          : FirebaseSevices.removeFavoriteEventToFirestore(widget.event.eventID);
+                          ? await FirebaseSevices.addFavoriteEventToFirestore(
+                              widget.event.eventID)
+                          : await FirebaseSevices
+                              .removeFavoriteEventToFirestore(
+                                  widget.event.eventID);
                     },
                     icon: isFavorite
                         ? const Icon(Icons.favorite, color: ColorsManager.blue)

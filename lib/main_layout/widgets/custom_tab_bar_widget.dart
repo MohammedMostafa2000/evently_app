@@ -25,12 +25,13 @@ class CustomTabBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: initialIndex??0,
+      initialIndex: initialIndex ?? 0,
       length: tabsList.length,
       child: TabBar(
         splashFactory: NoSplash.splashFactory,
         indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(46.r), color: indicatorBackgroundColor),
+            borderRadius: BorderRadius.circular(46.r),
+            color: indicatorBackgroundColor),
         labelColor: labelColor,
         unselectedLabelColor: unselectedLabelColor,
         isScrollable: true,
