@@ -145,7 +145,12 @@ class _HomeState extends State<Home> {
 
               final events = snapshot.data!;
               return ListView.builder(
-                padding: EdgeInsets.zero,
+                padding: REdgeInsets.only(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 120,
+                ),
                 physics: const BouncingScrollPhysics(),
                 itemCount: events.length,
                 itemBuilder: (context, index) {
